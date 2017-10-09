@@ -1,20 +1,28 @@
-class Node{
-    double mass;
-    double id;
-    ArrayList c_nodes;
-    ArrayList springs;
+public class Node{
+    public float mass;
+    public float id;
+    public ArrayList<Integer> c_nodes = new ArrayList<Integer>();
+    public ArrayList<Integer> springs = new ArrayList<Integer>();
     
-    Double[] accel = new Double[2];
-    Double[] velocity = new Double[2];
-    Double[] position = new Double[2];
+    public float[] accel = new float[2];
+    public float[] velocity = new float[2];
+    public float[] position = new float[2];
 
-    public Node(double m, double v){
+    public Node(float i, float m){
        mass = m;
-       value = v;
+       id = i;
     }
     
-    public void addEdge(double i, double l){
+    public void addEdge(int i, int l){
         c_nodes.add(i);
         springs.add(l);
+    }
+    
+    public float getId(){
+       return id; 
+    }
+    
+    public void drawNode(){
+       ellipse(position[0], position[1], mass * 10, mass * 10); 
     }
 }
