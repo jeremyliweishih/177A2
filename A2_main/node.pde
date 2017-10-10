@@ -1,17 +1,24 @@
+/*----------------------------------------------------------------
+  Node class header
+      where a node has a circle representation with mass and id
+      values for identification and relationship with other nodes
+      stored in maps and lists.
+/*----------------------------------------------------------------*/
+
 public class Node{
     public float mass;
     public float id;
     public ArrayList<Integer> c_nodes = new ArrayList<Integer>();
     public ArrayList<Integer> springs = new ArrayList<Integer>();
     public float c_diameter = mass * 10;
-    
     //stores node and all coulumb forces from other nodes
-    public HashMap<Integer, Float> coulumb_forces = new HashMap<Integer, Float>();
+    public HashMap<Integer, Float> coulumb_forces = 
+                                       new HashMap<Integer, Float>();
     
     public float[] accel = new float[2];
     public float[] velocity = new float[2];
     public float[] position = new float[2];
-
+    
     public Node(float i, float m){
        mass = m;
        id = i;
@@ -60,6 +67,7 @@ public class Node{
       }
       return false; 
     }   
+    
    //finds distance between node and its neighbor
     public float distance_from(Node to)
     {
@@ -73,6 +81,8 @@ public class Node{
               Math.pow(ne_ypos - n_ypos,2)));
         return len;
     }
+    
+    //adds spring force to corresponding ids in coulumb_forces
     public void add_sprforce(HashMap<Integer, Node> nodes){
       float adj_id = 0; 
       float prev_force = 0;  
