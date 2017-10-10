@@ -1,6 +1,7 @@
 /*----------------------------------------------------------------
   Partners: Jeremy Shih and Vivian Chen
   COMP177: Visualization Assignment 2
+  
   Main interface for Force-Directed Node-Link Visualization
 /*----------------------------------------------------------------*/
 import java.util.*;

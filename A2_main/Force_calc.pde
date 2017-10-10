@@ -1,4 +1,7 @@
 /*----------------------------------------------------------------
+  Partners: Jeremy Shih and Vivian Chen
+  COMP177: Visualization Assignment 2
+  
   Functions for all force related calculations
 /*----------------------------------------------------------------*/
 void cal_coloumbs(HashMap<Integer, Node> nodes){
@@ -25,7 +28,7 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
 }
 void cal_acc(HashMap<Integer, Node> nodes){
   for(Node n : nodes.values()){
-    
+      
   }
   
 }
@@ -48,12 +51,3 @@ void cal_acc(HashMap<Integer, Node> nodes){
 //     println("id: " + id + "v: " + n.coulumb_forces.get(id));
 //   }
 //}
-      //}
-      //for( int i = 0 ; i < n.springs.size(); i++) {
-      //  distance = n.distance_from(n.c_nodes.get(i), nodes); 
-      //  d_l = Math.abs(n.springs.get(i) - distance); //spring val - length
-      //  col_force = k * d_l;     // F = k * D_L, where k is defined
-      //  //compute acceleration
-      //  acc = col_force/n.mass;  // f = m * a, where we know f & m
-      //  print(acc);
-        //computer velocity

@@ -1,4 +1,7 @@
 /*----------------------------------------------------------------
+  Partners: Jeremy Shih and Vivian Chen
+  COMP177: Visualization Assignment 2
+  
   Node class header
       where a node has a circle representation with mass and id
       values for identification and relationship with other nodes

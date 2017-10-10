@@ -1,4 +1,7 @@
 /*----------------------------------------------------------------
+  Partners: Jeremy Shih and Vivian Chen
+  COMP177: Visualization Assignment 2
+  
   Functions related to all client interactions
 /*----------------------------------------------------------------*/
 void mouseDragged(){
