@@ -1,18 +1,20 @@
 import java.util.*;
 
-
 HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 
 void setup(){
+    surface.setResizable(true);
     String[] data = loadStrings("./data1.csv");
     parseNodes(data);
     parseEdges(data);
     size(600,600);
 }
-
 void draw() {
+  background(#ffffff);
+  drawEdges(nodes); 
   drawNodes(nodes);
  
+  
 }
 
 
@@ -23,6 +25,7 @@ void parseNodes(String[] data){
       Node new_node = new Node((float)Integer.parseInt(values[0]), (float)Integer.parseInt(values[1]));
       new_node.position[0] = (float)Math.random() * 600 + 1;
       new_node.position[1] = (float)Math.random() * 600 + 1;
+      new_node.c_diameter = new_node.mass * 20;
       nodes.put((int)new_node.id, new_node);
    }
 }
@@ -43,6 +46,33 @@ void parseEdges(String[] data){
 
 void drawNodes(HashMap<Integer, Node> nodes){
   for (Node n : nodes.values()) {
-      n.drawNode();
+    
+     if(n.mouseOver()){
+        fill(153);
+         n.drawNode();
+         n.show_data();
+     } else {
+       fill(#ffffff);
+       n.drawNode();   
+     }
   }
+}
+
+
+void drawEdges(HashMap<Integer, Node> nodes){ 
+  for (Node n : nodes.values()){
+    for(int i = 0; i < n.c_nodes.size(); i++)
+    {
+      n.drawEdge(n.c_nodes.get(i), nodes);
+    }
+ }
+}
+
+void mouseDragged(){
+ for (Node n : nodes.values()) {
+     if(n.mouseOver()){
+       n.position[0] = mouseX;
+       n.position[1] = mouseY;
+     }
+ } 
 }
