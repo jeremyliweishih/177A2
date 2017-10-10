@@ -5,6 +5,9 @@ public class Node{
     public ArrayList<Integer> springs = new ArrayList<Integer>();
     public float c_diameter = mass * 10;
     
+    //stores node and all coulumb forces from other nodes
+    public HashMap<Integer, Float> coulumb_forces = new HashMap<Integer, Float>();
+    
     public float[] accel = new float[2];
     public float[] velocity = new float[2];
     public float[] position = new float[2];
@@ -57,4 +60,27 @@ public class Node{
       }
       return false; 
     }   
+   //finds distance between node and its neighbor
+    public float distance_from(Node to)
+    {
+        float len = 0;
+        double ne_xpos = (double)to.position[0]; //other node
+        double ne_ypos = (double)to.position[1];
+        double n_xpos = (double)position[0];
+        double n_ypos = (double)position[1];
+        
+        len = (float)Math.sqrt((Math.pow(ne_xpos - n_xpos,2) + 
+              Math.pow(ne_ypos - n_ypos,2)));
+        return len;
+    }
+    public void add_sprforce(HashMap<Integer, Node> nodes){
+      float adj_id = 0; 
+      float prev_force = 0;  
+      for( int i = 0; i < c_nodes.size(); i++){
+          Node adj_node = nodes.get(c_nodes.get(i));
+          adj_id = adj_node.getId();
+          prev_force = coulumb_forces.get((int)adj_id);
+          coulumb_forces.put((int)adj_id, prev_force + springs.get(i));
+      }
+    }
 }
