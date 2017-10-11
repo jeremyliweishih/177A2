@@ -36,6 +36,35 @@ public class Node{
        return id; 
     }
     
+    public void updateNode(){
+      this.velocity[0] += this.accel[0];
+      this.velocity[1] += this.accel[1];
+      this.position[0] += this.velocity[0];
+      this.position[1] += this.velocity[1];
+       oob(); 
+    }
+    
+    public void oob(){
+      float x = this.position[0];
+      float y = this.position[1];
+      
+      if(x - c_diameter < 0){
+         this.position[0] = 0 + c_diameter;
+      }
+      
+      if(x + c_diameter > width){
+         this.position[0] = width - c_diameter;
+      }
+      
+      if(y - c_diameter < 0){
+         this.position[1] = 0 + c_diameter;
+      }
+      
+      if(y - c_diameter > height){
+         this.position[1] = height - c_diameter;
+      }      
+    }
+    
     public void drawNode(){
        ellipse(position[0], position[1], c_diameter,c_diameter); 
     }
@@ -86,14 +115,14 @@ public class Node{
     }
     
     //adds spring force to corresponding ids in coulumb_forces
-    public void add_sprforce(HashMap<Integer, Node> nodes){
-      float adj_id = 0; 
-      float prev_force = 0;  
-      for( int i = 0; i < c_nodes.size(); i++){
-          Node adj_node = nodes.get(c_nodes.get(i));
-          adj_id = adj_node.getId();
-          prev_force = coulumb_forces.get((int)adj_id);
-          coulumb_forces.put((int)adj_id, prev_force + springs.get(i));
-      }
-    }
+    //public void add_sprforce(HashMap<Integer, Node> nodes){
+    //  float adj_id = 0; 
+    //  float prev_force = 0;  
+    //  for( int i = 0; i < c_nodes.size(); i++){
+    //      Node adj_node = nodes.get(c_nodes.get(i));
+    //      adj_id = adj_node.getId();
+    //      prev_force = coulumb_forces.get((int)adj_id);
+    //      coulumb_forces.put((int)adj_id, prev_force + springs.get(i));
+    //  }
+    //}
 }

@@ -13,15 +13,21 @@ void setup(){
     String[] data = loadStrings("./data1.csv");
     parseNodes(data);
     parseEdges(data);
-    cal_coloumbs(nodes);
-    cal_acc(nodes);
     size(600,600);
 
 }
 void draw() {
   background(#ffffff);
+  cal_coloumbs(nodes);
+  updateNodes(nodes);
   drawEdges(nodes);
   drawNodes(nodes);
+}
+
+void updateNodes(HashMap<Integer, Node> nodes){
+    for(Node n : nodes.values()){
+      n.updateNode();
+    }
 }
 
 void parseNodes(String[] data){
@@ -36,6 +42,9 @@ void parseNodes(String[] data){
       new_node.position[0] = (float)(Math.random() * w_range) + new_node.c_diameter;
       h_range = ((height - new_node.c_diameter) - new_node.c_diameter);
       new_node.position[1] = (float)(Math.random() * h_range) + new_node.c_diameter;
+        //new_node.velocity[0] = 1;
+        //new_node.velocity[1] = 1;
+        
       nodes.put((int)new_node.id, new_node);
    }
 }
