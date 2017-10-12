@@ -66,7 +66,7 @@ public class Node{
          this.position[1] = 0 + c_diameter;
       }
       
-      if(y - c_diameter > height){
+      if(y + c_diameter > height){
          this.position[1] = height - c_diameter;
       }      
     }
