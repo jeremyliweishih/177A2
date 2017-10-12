@@ -6,11 +6,11 @@
 /*----------------------------------------------------------------*/
 import java.util.*;
 HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
-int resize_scale = 20;
+int resize_scale = 5;
 
 void setup(){
     surface.setResizable(true);
-    String[] data = loadStrings("./data1.csv");
+    String[] data = loadStrings("./data2.csv");
     parseNodes(data);
     parseEdges(data);
     size(600,600);

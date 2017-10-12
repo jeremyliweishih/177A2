@@ -5,7 +5,7 @@
   Functions for all force related calculations
 /*----------------------------------------------------------------*/
 void cal_coloumbs(HashMap<Integer, Node> nodes){
-  float k2 = 100;
+  float k2 = 10;
   for(Node n : nodes.values()){
   // compute coulumb force contribution 
       for( Node other_node : nodes.values()){
@@ -46,7 +46,7 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
 }
 
 void maintain_init_l(HashMap<Integer, Node> nodes) {
-  float maintain_f = 0.5; 
+  float maintain_f = 2; 
   for(Node n : nodes.values()){
       for( int i = 0; i < n.c_nodes.size(); i ++){
         float init_len = n.springs.get(i);
@@ -88,7 +88,7 @@ void cal_hookes(HashMap<Integer, Node> nodes){
          
          float spring_length = n.getSpring(other_node);
          float delta_length = spring_length - distance;
-  
+         println("dl: " + delta_length);
          float hforce = k1 * delta_length;
          
          float[] direction = new float[2]; 
