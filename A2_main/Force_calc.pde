@@ -5,10 +5,7 @@
   Functions for all force related calculations
 /*----------------------------------------------------------------*/
 void cal_coloumbs(HashMap<Integer, Node> nodes){
-  //float d_l = 0;
-  //float k = 1;
   float k2 = 100;
- 
   for(Node n : nodes.values()){
   // compute coulumb force contribution 
       for( Node other_node : nodes.values()){
@@ -18,10 +15,13 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
         if (other_node.getId() != n.getId()){
         float distance = n.distance_from(other_node);
         
-        if(distance == 0) {
-           distance = 10;
-        }
         float col_force = k2 / (distance * distance); // Coulombs Law f = k2/dist where k2 is defin);
+        
+        println(">> " + col_force);
+        //if(col_force >= 1000)
+        //{
+        //   col_force = 100; 
+        //}
         float[] direction = new float[2];
       
         direction[0] = -(other_node.position[0]- n.position[0]);
@@ -40,81 +40,85 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
           //add force to node acceleration
           n.accel[0] += accel[0];
           n.accel[1] += accel[1];
-          //store all coulumb forces
-          //n.coulumb_forces.put((int)other_node.getId(), col_force);
         }
       }
   }
 }
 
+void maintain_init_l(HashMap<Integer, Node> nodes) {
+  float maintain_f = 0.5; 
+  for(Node n : nodes.values()){
+      for( int i = 0; i < n.c_nodes.size(); i ++){
+        float init_len = n.springs.get(i);
+
+        //get child information
+        int child_id = n.c_nodes.get(i);
+        Node child = nodes.get(child_id);
+        
+        //get curr distance between parent and child
+        float curr_dist = n.distance_from(child);
+  
+        if(curr_dist - init_len >= 1) {
+          float[] direction = new float[2];
+          direction[0] = -(child.position[0]- n.position[0]);
+          direction[1] = -(child.position[1]- n.position[1]);
+          direction = normalize(direction);
+          
+          //update child position given constant force and direction
+          child.position[0] += direction[0] * maintain_f;
+          child.position[1] += direction[1] * maintain_f;
+        }
+      }
+  }
+}
+
+
 void cal_hookes(HashMap<Integer, Node> nodes){
-    float k1 = 0.0001;
+    float k1 = 1000;
     for(Node n : nodes.values()){
         for(Node other_node : nodes.values()){
          if(n == other_node){
             continue; 
+         } 
+         float distance = n.distance_from(other_node);
+         
+         if(distance == 0) {
+           distance = 10;
          }
          
-         float distance = n.distance_from(other_node);
          float spring_length = n.getSpring(other_node);
          float delta_length = spring_length - distance;
-         println("D_length: " + delta_length);
+  
          float hforce = k1 * delta_length;
          
-          float[] direction = new float[2]; 
-          direction[0] = -(other_node.position[0]- n.position[0]);
-          direction[1] = -(other_node.position[1]- n.position[1]);
-          
-          direction = normalize(direction);
-          
-          float[] force = new float[2];
-          force[0] = direction[0] * hforce;
-          force[1] = direction[1] * hforce;
-        
-          float[] accel = new float[2];
-          accel[0] = force[0] / n.mass;
-          accel[1] = force[1] / n.mass;
-          
-          //println(accel[0]);
-          //////add force to node acceleration
-          //n.accel[0] += accel[0];
-          //n.accel[1] += accel[1];
-      }
+         float[] direction = new float[2]; 
+         direction[0] = -(other_node.position[0]- n.position[0]);
+         direction[1] = -(other_node.position[1]- n.position[1]);
+         
+         if(Double.isNaN((double)direction[0])){
+             direction[0] = n.mass;
+         }
+         if(Double.isNaN((double)direction[1])){
+             direction[1] = n.mass;
+         }
+         
+         //direction = normalize(direction);
+         
+         float[] force = new float[2];
+         force[0] = direction[0] * hforce;
+         force[1] = direction[1] * hforce;
+   
+         float[] accel = new float[2];
+         accel[0] = force[0] / n.mass;
+         accel[1] = force[1] / n.mass;
+     }
     }
 }
 
 
 float[] normalize(float[] direction){
-
   float l = (float)(Math.sqrt(direction[0] * direction[0] + direction[1] * direction[1]));
   direction[0] = direction[0] / l;
   direction[1] = direction[1] / l;
   return direction;
 }
-
-
-void cal_acc(HashMap<Integer, Node> nodes){
-  for(Node n : nodes.values()){
-      
-  }
-  
-}
-// PRINT TEST FOR COULUMB FORCES
-//void testc( Node n)
-//{
-//  for(int id : n.coulumb_forces.keySet()){
-//     println("id: " + id + "sum: " + n.coulumb_forces.get(id));
-//  }
-//}
-//void test(Node n)
-//{
-//  println("SPRINGS: ");
-//   for ( int i = 0; i < n.springs.size(); i++)
-//   {
-//     println("id: " + n.c_nodes.get(i) + " " + n.springs.get(i)); 
-//   }
-//   println("C_FORCES: ");
-//   for(int id : n.coulumb_forces.keySet()){
-//     println("id: " + id + "v: " + n.coulumb_forces.get(id));
-//   }
-//}

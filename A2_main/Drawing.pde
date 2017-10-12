@@ -16,7 +16,6 @@ void drawNodes(HashMap<Integer, Node> nodes){
      }
   }
 }
-
 void drawEdges(HashMap<Integer, Node> nodes){ 
   for (Node n : nodes.values()){
     for(int i = 0; i < n.c_nodes.size(); i++)

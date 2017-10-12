@@ -23,6 +23,8 @@ void draw() {
   updateNodes(nodes);
   drawEdges(nodes);
   drawNodes(nodes);
+  maintain_init_l(nodes);
+  
 }
 
 void updateNodes(HashMap<Integer, Node> nodes){
@@ -43,9 +45,6 @@ void parseNodes(String[] data){
       new_node.position[0] = (float)(Math.random() * w_range) + new_node.c_diameter;
       h_range = ((height - new_node.c_diameter) - new_node.c_diameter);
       new_node.position[1] = (float)(Math.random() * h_range) + new_node.c_diameter;
-        //new_node.velocity[0] = 1;
-        //new_node.velocity[1] = 1;
-        
       nodes.put((int)new_node.id, new_node);
    }
 }
@@ -58,8 +57,9 @@ void parseEdges(String[] data){
     int id_1 = Integer.parseInt(values[0]);
     int id_2 = Integer.parseInt(values[1]);
     int l = Integer.parseInt(values[2]);
-    
+   
     nodes.get(id_1).addEdge(id_2, l);
     nodes.get(id_2).addEdge(id_1, l);
   }
+  
 }

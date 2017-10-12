@@ -69,8 +69,8 @@ public class Node{
       }      
     }
     
-    public void drawNode(){
-       ellipse(position[0], position[1], c_diameter,c_diameter); 
+    public void drawNode(){    
+         ellipse(position[0], position[1], c_diameter,c_diameter); 
     }
     
     public float get_x(){
@@ -84,7 +84,7 @@ public class Node{
     public void drawEdge(int id, HashMap<Integer, Node> nodes){
       Node connect_to = nodes.get(id);
       line(position[0], position[1], connect_to.get_x(),connect_to.get_y());
-    }
+  }
     
     public void show_data(){
         String data = "Id:" + id + System.lineSeparator() + "Mass: " + mass;
@@ -125,18 +125,10 @@ public class Node{
         
         len = (float)Math.sqrt((Math.pow(ne_xpos - n_xpos,2) + 
               Math.pow(ne_ypos - n_ypos,2)));
+        if( Double.isNaN((double)len)){
+           println("JERMEJEREREJREJR");
+           len = 1000;  
+        }
         return len;
     }
-    
-    //adds spring force to corresponding ids in coulumb_forces
-    //public void add_sprforce(HashMap<Integer, Node> nodes){
-    //  float adj_id = 0; 
-    //  float prev_force = 0;  
-    //  for( int i = 0; i < c_nodes.size(); i++){
-    //      Node adj_node = nodes.get(c_nodes.get(i));
-    //      adj_id = adj_node.getId();
-    //      prev_force = coulumb_forces.get((int)adj_id);
-    //      coulumb_forces.put((int)adj_id, prev_force + springs.get(i));
-    //  }
-    //}
 }
