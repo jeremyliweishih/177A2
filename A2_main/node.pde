@@ -41,7 +41,13 @@ public class Node{
       this.velocity[1] += this.accel[1];
       this.position[0] += this.velocity[0];
       this.position[1] += this.velocity[1];
-       oob(); 
+      oob();
+      
+      this.accel[0] = this.accel[0] * 0.85;
+      this.accel[1] = this.accel[1] * 0.85;
+
+      this.velocity[0] = this.velocity[0] * 0.85;
+      this.velocity[1] = this.velocity[1] * 0.85;
     }
     
     public void oob(){

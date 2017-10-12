@@ -7,7 +7,7 @@
 void cal_coloumbs(HashMap<Integer, Node> nodes){
   //float d_l = 0;
   //float k = 1;
-  float k2 = 1;
+  float k2 = 100;
  
   for(Node n : nodes.values()){
   // compute coulumb force contribution 
@@ -15,7 +15,7 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
         if (other_node.getId() != n.getId())
         {
         float distance = n.distance_from(other_node);
-        float col_force = k2 /distance; // Coulombs Law f = k2/dist where k2 is defin);
+        float col_force = k2 / (distance * distance); // Coulombs Law f = k2/dist where k2 is defin);
         float[] direction = new float[2];
           //x
         direction[0] = -(other_node.position[0]- n.position[0]);
