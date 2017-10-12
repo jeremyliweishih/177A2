@@ -15,8 +15,6 @@ public class Node{
     public ArrayList<Integer> springs = new ArrayList<Integer>();
     public float c_diameter = mass * 10;
     //stores node and all coulumb forces from other nodes
-    public HashMap<Integer, Float> coulumb_forces = 
-                                       new HashMap<Integer, Float>();
     
     public float[] accel = new float[2];
     public float[] velocity = new float[2];
@@ -105,6 +103,16 @@ public class Node{
       }
       return false; 
     }   
+    
+    public float getSpring(Node n){
+       for(int i = 0; i < c_nodes.size(); i++){
+          if(c_nodes.get(i) == n.id){
+             return (float)this.springs.get(i); 
+          }
+       }
+       
+       return 0;
+    }
     
    //finds distance between node and its neighbor
     public float distance_from(Node to)

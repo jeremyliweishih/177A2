@@ -12,6 +12,9 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
   for(Node n : nodes.values()){
   // compute coulumb force contribution 
       for( Node other_node : nodes.values()){
+       if(n == other_node){
+            continue; 
+         }
         if (other_node.getId() != n.getId()){
         float distance = n.distance_from(other_node);
         
@@ -42,6 +45,42 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
         }
       }
   }
+}
+
+void cal_hookes(HashMap<Integer, Node> nodes){
+    float k1 = 0.0001;
+    for(Node n : nodes.values()){
+        for(Node other_node : nodes.values()){
+         if(n == other_node){
+            continue; 
+         }
+         
+         float distance = n.distance_from(other_node);
+         float spring_length = n.getSpring(other_node);
+         float delta_length = spring_length - distance;
+         println("D_length: " + delta_length);
+         float hforce = k1 * delta_length;
+         
+          float[] direction = new float[2]; 
+          direction[0] = -(other_node.position[0]- n.position[0]);
+          direction[1] = -(other_node.position[1]- n.position[1]);
+          
+          direction = normalize(direction);
+          
+          float[] force = new float[2];
+          force[0] = direction[0] * hforce;
+          force[1] = direction[1] * hforce;
+        
+          float[] accel = new float[2];
+          accel[0] = force[0] / n.mass;
+          accel[1] = force[1] / n.mass;
+          
+          //println(accel[0]);
+          //////add force to node acceleration
+          //n.accel[0] += accel[0];
+          //n.accel[1] += accel[1];
+      }
+    }
 }
 
 

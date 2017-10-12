@@ -19,6 +19,7 @@ void setup(){
 void draw() {
   background(#ffffff);
   cal_coloumbs(nodes);
+  cal_hookes(nodes);
   updateNodes(nodes);
   drawEdges(nodes);
   drawNodes(nodes);
