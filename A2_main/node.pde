@@ -125,7 +125,7 @@ public class Node{
         
         len = (float)Math.sqrt((Math.pow(ne_xpos - n_xpos,2) + 
               Math.pow(ne_ypos - n_ypos,2)));
-        if( Double.isNaN((double)len)){
+        if( Double.isNaN((double)len)){ //halp
            println("JERMEJEREREJREJR");
            len = 1000;  
         }
