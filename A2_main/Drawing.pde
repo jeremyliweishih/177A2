@@ -8,11 +8,11 @@ void drawNodes(HashMap<Integer, Node> nodes){
   for (Node n : nodes.values()) {
     if(n.mouseOver()){
         fill(153);
-         n.drawNode();
+         n.drawNode(sscale.get(0));
          n.show_data();
      } else {
        fill(#ffffff);
-       n.drawNode();   
+       n.drawNode(sscale.get(0));   
      }
   }
 }

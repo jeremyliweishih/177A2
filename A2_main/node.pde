@@ -13,7 +13,7 @@ public class Node{
     public float id;
     public ArrayList<Integer> c_nodes = new ArrayList<Integer>();
     public ArrayList<Integer> springs = new ArrayList<Integer>();
-    public float c_diameter = mass * 10;
+    public float c_radius = mass * 10;
     //stores node and all coulumb forces from other nodes
     
     public float[] accel = new float[2];
@@ -52,25 +52,27 @@ public class Node{
       float x = this.position[0];
       float y = this.position[1];
       
-      if(x - c_diameter < 0){
-         this.position[0] = 0 + c_diameter;
+      if(x - c_radius < 0){
+         this.position[0] = 0 + c_radius;
       }
       
-      if(x + c_diameter > width){
-         this.position[0] = width - c_diameter;
+      if(x + c_radius > width){
+         this.position[0] = width - c_radius;
       }
       
-      if(y - c_diameter < 0){
-         this.position[1] = 0 + c_diameter;
+      if(y - c_radius < 0){
+         this.position[1] = 0 + c_radius;
       }
       
-      if(y + c_diameter > height){
-         this.position[1] = height - c_diameter;
+      if(y + c_radius > height){
+         this.position[1] = height - c_radius;
       }      
     }
     
-    public void drawNode(){    
-         ellipse(position[0], position[1], c_diameter,c_diameter); 
+    public void drawNode(float scale){   
+         //update radius if control slider changes by user
+         c_radius = mass * scale;
+         ellipse(position[0], position[1], c_radius,c_radius); 
     }
     
     public float get_x(){
@@ -91,14 +93,14 @@ public class Node{
         textSize(10);
         textAlign(CENTER);
         fill(0);
-        text(data, position[0], position[1] - c_diameter*.10);
+        text(data, position[0], position[1] - c_radius*.10);
 
     }
     //all mouse related functions
     public boolean mouseOver(){
       float disX = position[0] - mouseX;
       float disY = position[1] - mouseY;
-      if(sqrt(sq(disX) + sq(disY)) < c_diameter/2 ) {
+      if(sqrt(sq(disX) + sq(disY)) < c_radius/2 ) {
         return true;
       }
       return false; 

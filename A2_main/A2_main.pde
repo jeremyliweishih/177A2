@@ -6,14 +6,16 @@
 /*----------------------------------------------------------------*/
 import java.util.*;
 HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
-int resize_scale = 5;
-PGraphics pickbuffer = null;
-
+List<Slider> All_Sl = new ArrayList<Slider>();
+List<Float> sscale = new ArrayList<Float>();
+List<Float> scale_increment = new ArrayList<Float>();
 
 void setup(){
     String[] data = loadStrings("./data2.csv");
+    initialize_sscale();
     parseNodes(data);
     parseEdges(data);
+    control_bar();
     size(600,600);
 
 }
@@ -25,8 +27,7 @@ void draw() {
   drawEdges(nodes);
   drawNodes(nodes);
   maintain_init_l(nodes);
-  control_bar();
-  
+  draw_control_bar();
 }
 
 void updateNodes(HashMap<Integer, Node> nodes){
@@ -42,11 +43,11 @@ void parseNodes(String[] data){
    for(int i = 1; i <= n; i++){
       String[] values = data[i].split(",");
       Node new_node = new Node((float)Integer.parseInt(values[0]), (float)Integer.parseInt(values[1]));    
-      new_node.c_diameter = new_node.mass * resize_scale;
-      w_range = ((width - new_node.c_diameter) - new_node.c_diameter);
-      new_node.position[0] = (float)(Math.random() * w_range) + new_node.c_diameter;
-      h_range = ((height - new_node.c_diameter) - new_node.c_diameter);
-      new_node.position[1] = (float)(Math.random() * h_range) + new_node.c_diameter;
+      new_node.c_radius = new_node.mass * sscale.get(0);
+      w_range = ((width - new_node.c_radius) - new_node.c_radius);
+      new_node.position[0] = (float)(Math.random() * w_range) + new_node.c_radius;
+      h_range = ((height - new_node.c_radius) - new_node.c_radius);
+      new_node.position[1] = (float)(Math.random() * h_range) + new_node.c_radius;
       nodes.put((int)new_node.id, new_node);
    }
 }
@@ -69,27 +70,61 @@ void parseEdges(String[] data){
 void control_bar(){
   float r_h = 50;
   float r_w = 100;
-  float r_x = 30;
-  float r_y = 20;
-  float r_radii = 7;
   float c_w = r_w - 10;
-  //control box
-  rect(width - (r_w + 80), height - (r_h + 5) , r_w + 75, r_h, r_radii);
-  rect(width - (r_w), height - (r_h) , r_w - 10 , r_h / 5);
-  rect(width - (r_w), height - (r_h - 15) , c_w , r_h / 5);
-  rect(width - (r_w), height - (r_h - 30) , c_w , r_h / 5);
+  float t_size = 10;
+  float sh_size = 15;
   
-  fill(0);
-  //sliders
-  rect(width - (r_w / 2 + 3) -  c_w/30 , height - (r_h) , c_w/30 , r_h / 5);
-  rect(width - (r_w / 2 + 3) -  c_w/30, height - (r_h - 15) , c_w/30 , r_h / 5);
-  rect(width - (r_w / 2 + 3) -  c_w/30, height - (r_h - 30) , c_w/30 , r_h / 5);
+  //set slider objects
+
+  Slider node_sl = new Slider(0,"Node Size", width - (r_w), height - (r_h + 15), r_w - 10,r_h / 5); 
+  node_sl.setLabelinfo(width - (r_w + 77), height - (r_h + 5) , t_size);
+  node_sl.setSlHand(color(255, 0, 0), width - (r_w / 2 + 5) -  sh_size/2 , height - (r_h + 15) , sh_size , r_h / 5);
+  All_Sl.add(node_sl);
+ 
   
-  //control box text
-  int t_size = 10;
-  textSize(t_size);
-  textAlign(LEFT);
-  text("Node Size", width - (r_w + 77), height - (r_h) + t_size );
-  text("Coulumb Force", width - (r_w + 77), height - r_h + (t_size*2) + 5);
-  text("Hookes Force", width - (r_w + 77), height - (r_h) + (t_size * 3) + 10 );
+  Slider col_sl = new Slider(1,"Coulumb Force", width - (r_w), height - (r_h) , c_w , r_h / 5); 
+  col_sl.setLabelinfo(width - (r_w + 77), height - (r_h) + t_size, t_size);
+  col_sl.setSlHand(color(0, 255, 0), width - (r_w / 2 + 5) -  sh_size/2 , height - (r_h) , sh_size , r_h / 5);
+  All_Sl.add(col_sl);
+
+  Slider h_sl = new Slider(2,"Hookes Force", width - (r_w), height - (r_h - 15) , c_w , r_h / 5);
+  h_sl.setLabelinfo(width - (r_w + 77), height - r_h + (t_size*2) + 5, t_size);
+  h_sl.setSlHand(color(10, 150, 255),width - (r_w / 2 + 5) -  sh_size/2, height - (r_h - 15) , sh_size , r_h / 5);
+  All_Sl.add(h_sl);
+  
+  Slider m_sl = new Slider(2,"Edge Force", width - (r_w), height - (r_h - 30) , c_w , r_h / 5);
+  m_sl.setLabelinfo(width - (r_w + 77), height - (r_h) + (t_size * 3) + 10, t_size);
+  m_sl.setSlHand(color(255, 255, 0), width - (r_w / 2 + 5) -  sh_size/2, height - (r_h - 30) , sh_size , r_h / 5);
+  All_Sl.add(m_sl);
+}
+
+void draw_control_bar(){
+  float r_h = 50;
+  float r_w = 100;
+  float r_radii = 7;
+  fill(#ffffff);
+  rect(width - (r_w + 80), height - (r_h + 20) , r_w + 75, r_h + 15, r_radii);
+  
+  for(int i = 0; i < All_Sl.size(); i++){
+    All_Sl.get(i).mouseOver = false;
+    All_Sl.get(i).drawSlider();
+    
+    All_Sl.get(i).drawSliderHand();
+  }  
+}
+
+void initialize_sscale(){
+    //0 is node size
+    sscale.add(5.0);
+    scale_increment.add(-.5); 
+    //k2 for coulums force
+    sscale.add(10.0);
+    scale_increment.add(5.0);
+    //k1 for hookes force
+    sscale.add(1000.0);
+    scale_increment.add(100.0);
+    
+    //maintain edge distance force
+    sscale.add(2.0);
+    scale_increment.add(1.0);
 }
