@@ -20,6 +20,7 @@ void setup(){
     cal_hookes(nodes);
     maintain_init_l(nodes);
     updateNodes(nodes);
+   
     
     size(600,600);
 
@@ -28,7 +29,6 @@ void draw() {
   background(#ffffff);
   
   text("Total Energy: " + calcEnergy(nodes), 40, 40);
-  println("total energy: " + calcEnergy(nodes));
   
   if(calcEnergy(nodes) >= nodes.size() / 10 || mousePressed){
     cal_coloumbs(nodes);
@@ -40,6 +40,7 @@ void draw() {
   drawEdges(nodes);
   drawNodes(nodes); 
   draw_control_bar();
+  //line(0, height - 70, width, height - 70);
 
 }
 

@@ -63,7 +63,6 @@ public class Slider{
       sh_x = min;
     } 
     if(curr_x >= max){
-      print("LOL");
       sh_x = max;
     }
     rect(sh_x, sh_y, sh_w, sh_h);
@@ -74,7 +73,6 @@ public class Slider{
     float y_max = sh_y + sh_h;
      if(mouseX >= sh_x && mouseX <= x_max && mouseY >= sh_y &&  mouseY <= y_max)
      {
-       println("id: " + id);
         mouseOver = true; 
      }
   }
