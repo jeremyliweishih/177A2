@@ -16,18 +16,31 @@ void setup(){
     parseNodes(data);
     parseEdges(data);
     control_bar();
+    cal_coloumbs(nodes);
+    cal_hookes(nodes);
+    maintain_init_l(nodes);
+    updateNodes(nodes);
+    
     size(600,600);
 
 }
 void draw() {
   background(#ffffff);
-  cal_coloumbs(nodes);
-  cal_hookes(nodes);
-  updateNodes(nodes);
+  
+  text("Total Energy: " + calcEnergy(nodes), 40, 40);
+  println("total energy: " + calcEnergy(nodes));
+  
+  if(calcEnergy(nodes) >= nodes.size() / 10 || mousePressed){
+    cal_coloumbs(nodes);
+    cal_hookes(nodes);
+    maintain_init_l(nodes);
+    updateNodes(nodes);
+
+  }
   drawEdges(nodes);
-  drawNodes(nodes);
-  maintain_init_l(nodes);
+  drawNodes(nodes); 
   draw_control_bar();
+
 }
 
 void updateNodes(HashMap<Integer, Node> nodes){
@@ -89,12 +102,12 @@ void control_bar(){
 
   Slider h_sl = new Slider(2,"Hookes Force", width - (r_w), height - (r_h - 15) , c_w , r_h / 5);
   h_sl.setLabelinfo(width - (r_w + 77), height - r_h + (t_size*2) + 5, t_size);
-  h_sl.setSlHand(color(10, 150, 255),width - (r_w / 2 + 5) -  sh_size/2, height - (r_h - 15) , sh_size , r_h / 5);
+  h_sl.setSlHand(color(255, 255, 0),width - (r_w / 2 + 5) -  sh_size/2, height - (r_h - 15) , sh_size , r_h / 5);
   All_Sl.add(h_sl);
   
   Slider m_sl = new Slider(2,"Edge Force", width - (r_w), height - (r_h - 30) , c_w , r_h / 5);
   m_sl.setLabelinfo(width - (r_w + 77), height - (r_h) + (t_size * 3) + 10, t_size);
-  m_sl.setSlHand(color(255, 255, 0), width - (r_w / 2 + 5) -  sh_size/2, height - (r_h - 30) , sh_size , r_h / 5);
+  m_sl.setSlHand(color(10, 150, 255), width - (r_w / 2 + 5) -  sh_size/2, height - (r_h - 30) , sh_size , r_h / 5);
   All_Sl.add(m_sl);
 }
 
@@ -117,14 +130,16 @@ void initialize_sscale(){
     //0 is node size
     sscale.add(5.0);
     scale_increment.add(-.5); 
+    
     //k2 for coulums force
-    sscale.add(10.0);
-    scale_increment.add(5.0);
+    sscale.add(150.0);
+    scale_increment.add(10.0);
+    
     //k1 for hookes force
-    sscale.add(1000.0);
-    scale_increment.add(100.0);
+    sscale.add(20.0);
+    scale_increment.add(10.0);
     
     //maintain edge distance force
-    sscale.add(2.0);
-    scale_increment.add(1.0);
+    sscale.add(0.35);
+    scale_increment.add(-.01);
 }

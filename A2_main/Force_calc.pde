@@ -60,8 +60,8 @@ void maintain_init_l(HashMap<Integer, Node> nodes) {
           direction = normalize(direction);
           
           //update child position given constant force and direction
-          child.position[0] += direction[0] * maintain_f;
-          child.position[1] += direction[1] * maintain_f;
+          child.velocity[0] += direction[0] * maintain_f;
+          child.velocity[1] += direction[1] * maintain_f;
         }
       }
   }
@@ -115,4 +115,16 @@ float[] normalize(float[] direction){
   direction[0] = direction[0] / l;
   direction[1] = direction[1] / l;
   return direction;
+}
+
+float calcEnergy(HashMap<Integer, Node> nodes){
+  float total_energy = 0;    
+  for(Node n : nodes.values()){
+       float velocity = (Math.abs(n.velocity[0]) + Math.abs(n.velocity[1]));
+       float mass = n.mass;
+       float energy = ((0.5) * mass * velocity * velocity);
+       total_energy += energy;
+    }
+    
+  return total_energy;
 }

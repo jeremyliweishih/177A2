@@ -27,6 +27,8 @@ public class Slider{
        w = wi;
        h = hi;
        mouseOver = false;
+       min = x;
+       max = x + wi - 15;
        id  = i; //temporary addition for debugging
   }
   public void setLabelinfo(float x, float y, float t_sz) {
@@ -56,6 +58,14 @@ public class Slider{
   }
   public void drawSliderHand(){  
     fill(c);
+    float curr_x = sh_x;
+    if(curr_x <= min){
+      sh_x = min;
+    } 
+    if(curr_x >= max){
+      print("LOL");
+      sh_x = max;
+    }
     rect(sh_x, sh_y, sh_w, sh_h);
     checkMO();
   }

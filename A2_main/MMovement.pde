@@ -11,7 +11,7 @@ void mouseDragged(){
        n.position[1] = mouseY;
      }
  }
- float f = 1; 
+ float f = 1.75; 
  
  //need to add check if out of bound on bar
  for(int i = 0; i < All_Sl.size(); i++){
