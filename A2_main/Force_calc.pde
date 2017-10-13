@@ -17,12 +17,7 @@ void cal_coloumbs(HashMap<Integer, Node> nodes){
         
         float col_force = k2 / (distance * distance); // Coulombs Law f = k2/dist where k2 is defin);
         
-        println(">> " + col_force);
-        //if(col_force >= 1000)
-        //{
-        //   col_force = 100; 
-        //}
-        float[] direction = new float[2];
+                float[] direction = new float[2];
       
         direction[0] = -(other_node.position[0]- n.position[0]);
         direction[1] = -(other_node.position[1]- n.position[1]);
@@ -88,7 +83,6 @@ void cal_hookes(HashMap<Integer, Node> nodes){
          
          float spring_length = n.getSpring(other_node);
          float delta_length = spring_length - distance;
-         println("dl: " + delta_length);
          float hforce = k1 * delta_length;
          
          float[] direction = new float[2]; 

@@ -7,9 +7,10 @@
 import java.util.*;
 HashMap<Integer, Node> nodes = new HashMap<Integer, Node>();
 int resize_scale = 5;
+PGraphics pickbuffer = null;
+
 
 void setup(){
-    surface.setResizable(true);
     String[] data = loadStrings("./data2.csv");
     parseNodes(data);
     parseEdges(data);
@@ -24,6 +25,7 @@ void draw() {
   drawEdges(nodes);
   drawNodes(nodes);
   maintain_init_l(nodes);
+  control_bar();
   
 }
 
@@ -62,4 +64,32 @@ void parseEdges(String[] data){
     nodes.get(id_2).addEdge(id_1, l);
   }
   
+}
+
+void control_bar(){
+  float r_h = 50;
+  float r_w = 100;
+  float r_x = 30;
+  float r_y = 20;
+  float r_radii = 7;
+  float c_w = r_w - 10;
+  //control box
+  rect(width - (r_w + 80), height - (r_h + 5) , r_w + 75, r_h, r_radii);
+  rect(width - (r_w), height - (r_h) , r_w - 10 , r_h / 5);
+  rect(width - (r_w), height - (r_h - 15) , c_w , r_h / 5);
+  rect(width - (r_w), height - (r_h - 30) , c_w , r_h / 5);
+  
+  fill(0);
+  //sliders
+  rect(width - (r_w / 2 + 3) -  c_w/30 , height - (r_h) , c_w/30 , r_h / 5);
+  rect(width - (r_w / 2 + 3) -  c_w/30, height - (r_h - 15) , c_w/30 , r_h / 5);
+  rect(width - (r_w / 2 + 3) -  c_w/30, height - (r_h - 30) , c_w/30 , r_h / 5);
+  
+  //control box text
+  int t_size = 10;
+  textSize(t_size);
+  textAlign(LEFT);
+  text("Node Size", width - (r_w + 77), height - (r_h) + t_size );
+  text("Coulumb Force", width - (r_w + 77), height - r_h + (t_size*2) + 5);
+  text("Hookes Force", width - (r_w + 77), height - (r_h) + (t_size * 3) + 10 );
 }
